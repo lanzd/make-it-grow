@@ -1,4 +1,4 @@
-package com.planning.application.vegetableCommand;
+package com.planning.application.order;
 
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,13 +7,13 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class VegetableCommandService {
+public class OrderService {
 
     @Autowired
-    VegetableCommandRepository vegetableVegetableCommandRepository;
+    OrderRepository vegetableOrderRepository;
 
-    public VegetableCommand get(long connectorId) throws NotFoundException {
-        Optional<VegetableCommand> optionalConnector = vegetableVegetableCommandRepository.findById(connectorId);
+    public OrderEntity get(long connectorId) throws NotFoundException {
+        Optional<OrderEntity> optionalConnector = vegetableOrderRepository.findById(connectorId);
         if(optionalConnector.isPresent()){
             return optionalConnector.get();
         }

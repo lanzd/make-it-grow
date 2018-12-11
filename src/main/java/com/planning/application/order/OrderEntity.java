@@ -1,24 +1,27 @@
-package com.planning.application.command;
+package com.planning.application.order;
 
 import com.planning.application.product.Product;
+import org.springframework.data.rest.core.annotation.HandleAfterSave;
+import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
 
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(indexes = {@Index(name= "command_idx_date", columnList = "date", unique = false)})
-public class Command {
+@Table(indexes = {@Index(name= "order_idx_date", columnList = "date", unique = false)})
+public class OrderEntity {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private long id;
 
     @ManyToOne
+    @JoinColumn(name = "product_id")
     private Product product;
 
     private Date date;
 
-    private int quantity;
+    private Integer quantity;
 
     public long getId() {
         return id;
@@ -44,17 +47,17 @@ public class Command {
         this.date = date;
     }
 
-    public int getQuantity() {
+    public Integer getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(Integer quantity) {
         this.quantity = quantity;
     }
 
     @Override
     public String toString() {
-        return "VegetableCommand{" +
+        return "OrderedVegetable{" +
                 "id=" + id +
               //  ", compositeProduct='" + product.toString() + '\'' +
                 ", date=" + date.toString() +
