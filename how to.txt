@@ -9,4 +9,13 @@ curl -i -X POST -H "Content-Type:application/json" -d '{"name": "Carotte"}' http
 4. Récupérer les légumes
 curl
 
-curl -i -X POST -H "Content-Type:application/json" -d '{"name": "Carotte"}' http://localhost:8080/vegetable
+
+5. Créer un légume
+curl -i -X POST -H "Content-Type:application/json" -d '{"name": "Carotte","vegetableParameters":{growingTime":50}}' http://localhost:8080/vegetable
+
+
+6. Créer un produit
+curl -i -X POST -H "Content-Type:application/json" -d '{"name": "Botte de Carotte", "vegetable":"http://localhost:8080/vegetable/1","unit":"piece","quantity":"10"}' http://localhost:8080/simpleProduct
+
+6. Créer une commande
+curl -i -X POST -H "Content-Type:application/json" -d '{"date": 1531313401, "product":"http://localhost:8080/simpleProduct/1","quantity":"20"}' http://localhost:8080/command

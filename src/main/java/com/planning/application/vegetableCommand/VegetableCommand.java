@@ -1,24 +1,29 @@
-package com.planning.application.command;
+package com.planning.application.vegetableCommand;
 
+import com.planning.application.command.Command;
 import com.planning.application.product.Product;
+import com.planning.application.vegetable.Vegetable;
 
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(indexes = {@Index(name= "command_idx_date", columnList = "date", unique = false)})
-public class Command {
+@Table(indexes = {@Index(name= "vegetable_command_idx_date", columnList = "date", unique = false)})
+public class VegetableCommand {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private long id;
 
     @ManyToOne
-    private Product product;
+    @JoinColumn(name = "vegetable_id")
+    private Vegetable vegetable;
 
-    private Date date;
+    @ManyToOne
+    @JoinColumn(name = "command_id")
+    private Command command;
 
-    private int quantity;
+    Date date;
 
     public long getId() {
         return id;
@@ -28,28 +33,12 @@ public class Command {
         this.id = id;
     }
 
-    public Product getProduct() {
-        return product;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
-    }
-
     public Date getDate() {
         return date;
     }
 
     public void setDate(Date date) {
         this.date = date;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
     }
 
     @Override

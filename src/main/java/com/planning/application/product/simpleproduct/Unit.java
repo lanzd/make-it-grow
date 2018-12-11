@@ -1,7 +1,7 @@
 package com.planning.application.product.simpleproduct;
 
 public enum Unit {
-    unit,
+    piece,
     meter_square,
-    gramme
+    gram
 }
