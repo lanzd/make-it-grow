@@ -1,0 +1,9 @@
+end points (actuator, health, ..)
+see : https://docs.spring.io/spring-boot/docs/2.0.2.RELEASE/reference/htmlsingle/#production-ready-endpoints
+--> application.properties
+
+security :
+https://spring.io/guides/gs/securing-web/
+
+jpa :
+https://spring.io/guides/gs/accessing-data-jpa/
