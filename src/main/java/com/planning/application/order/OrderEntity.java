@@ -1,8 +1,6 @@
 package com.planning.application.order;
 
 import com.planning.application.product.Product;
-import org.springframework.data.rest.core.annotation.HandleAfterSave;
-import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
 
 import javax.persistence.*;
 import java.util.Date;

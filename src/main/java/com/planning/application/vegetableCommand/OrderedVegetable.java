@@ -7,7 +7,10 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(indexes = {@Index(name= "ordered_vegetable_idx_date", columnList = "date", unique = false)})
+@Table(indexes = {
+        @Index(name= "ordered_vegetable_idx_date", columnList = "date", unique = false),
+        @Index(name= "ordered_vegetable_idx_order", columnList = "order_id", unique = false)
+})
 public class OrderedVegetable {
 
     @Id
@@ -38,6 +41,7 @@ public class OrderedVegetable {
 
     public void setOrderEntity(OrderEntity orderEntity) {
         this.orderEntity = orderEntity;
+        this.date = orderEntity.getDate();
     }
 
     public long getId() {
@@ -50,10 +54,6 @@ public class OrderedVegetable {
 
     public Date getDate() {
         return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
     }
 
     @Override
