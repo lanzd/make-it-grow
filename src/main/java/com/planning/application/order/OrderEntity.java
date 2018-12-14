@@ -21,6 +21,17 @@ public class OrderEntity {
 
     private Integer quantity;
 
+    public OrderEntity() {
+    }
+
+    public OrderEntity(long id, Product product, Date date, Integer quantity) {
+        this.id = id;
+        this.product = product;
+        this.date = date;
+        this.quantity = quantity;
+    }
+
+
     public long getId() {
         return id;
     }

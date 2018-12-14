@@ -14,6 +14,8 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Optional;
 
+import static com.planning.application.vegetable.vegetableParameters.VegetableDefaultParameters.GROWING_TIME_SEASON_FACTOR;
+
 @Service
 public class VegetableService {
 
@@ -49,7 +51,7 @@ public class VegetableService {
         Date date = new Date();
         for(int i = 0;i<duration;i++){
             Date seedingDate = new Date(date.getTime() + DAY_IN_MILISECOND * i);
-            Date harvestDate = new Date(seedingDate.getTime() + (vegetable.getVegetableParameters().getNurseryTime() + vegetable.getVegetableParameters().getGrowingTime())*DAY_IN_MILISECOND);
+            Date harvestDate = new Date(seedingDate.getTime() + (vegetable.getVegetableParameters().getNurseryTime() + vegetable.getVegetableParameters().getGrowingTime())*DAY_IN_MILISECOND * GROWING_TIME_SEASON_FACTOR(seedingDate));
             computedHarvestDates.add(computedHarvestDateRepository.save(new ComputedHarvestDate(new ComputedHarvestDateIdentity(seedingDate,vegetable),harvestDate)));
         }
         return computedHarvestDates;

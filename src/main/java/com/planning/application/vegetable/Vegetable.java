@@ -19,6 +19,15 @@ public class Vegetable implements Serializable {
     @Embedded
     private VegetableParameters vegetableParameters;
 
+    public Vegetable() {
+    }
+
+    public Vegetable(long id, String name, VegetableParameters vegetableParameters) {
+        this.id = id;
+        this.name = name;
+        this.vegetableParameters = vegetableParameters;
+    }
+
     public long getId() {
         return id;
     }

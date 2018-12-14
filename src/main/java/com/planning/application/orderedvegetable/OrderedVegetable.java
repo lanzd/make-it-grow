@@ -29,6 +29,18 @@ public class OrderedVegetable {
 
     private Date date;
 
+
+    public OrderedVegetable() {
+    }
+
+    public OrderedVegetable(long id, Vegetable vegetable, OrderEntity orderEntity, int quantity, Date date) {
+        this.id = id;
+        this.vegetable = vegetable;
+        this.orderEntity = orderEntity;
+        this.quantity = quantity;
+        this.date = date;
+    }
+
     public Vegetable getVegetable() {
         return vegetable;
     }

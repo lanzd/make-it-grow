@@ -19,6 +19,9 @@ public class ComputedHarvestDate {
     @NotNull
     private Date harvestDate;
 
+    public ComputedHarvestDate() {
+    }
+
     public ComputedHarvestDate(ComputedHarvestDateIdentity computedHarvestDateIdentity, @NotNull Date harvestDate) {
         this.computedHarvestDateIdentity = computedHarvestDateIdentity;
         this.harvestDate = harvestDate;

@@ -17,6 +17,16 @@ public class SimpleProduct extends Product {
 
     Unit unit;
 
+    public SimpleProduct() {
+    }
+
+    public SimpleProduct(long id, String name, Vegetable vegetable, Integer quantity, Unit unit) {
+        super(id, name);
+        this.vegetable = vegetable;
+        this.quantity = quantity;
+        this.unit = unit;
+    }
+
     public Vegetable getVegetable() {
         return vegetable;
     }

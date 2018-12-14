@@ -9,6 +9,9 @@ import javax.persistence.Entity;
 @DiscriminatorValue("COMPOSITE")
 public class CompositeProduct extends Product {
 
+    public CompositeProduct() {
+    }
+
     @Override
     public String toString() {
         return "CompositeProductComponent{" +

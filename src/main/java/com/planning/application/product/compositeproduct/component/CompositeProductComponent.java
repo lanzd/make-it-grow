@@ -23,6 +23,17 @@ public class CompositeProductComponent  implements Serializable {
 
     private Integer quantity;
 
+
+    public CompositeProductComponent() {
+    }
+
+    public CompositeProductComponent(long id, CompositeProduct product, SimpleProduct component, Integer quantity) {
+        this.id = id;
+        this.product = product;
+        this.component = component;
+        this.quantity = quantity;
+    }
+
     public Integer getQuantity() {
         return quantity;
     }
