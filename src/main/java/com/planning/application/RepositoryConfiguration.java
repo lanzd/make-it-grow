@@ -1,7 +1,7 @@
 package com.planning.application;
 
 import com.planning.application.order.OrderEntityEventHandler;
-import com.planning.application.vegetable.VegetableEntityEventHandler;
+import com.planning.application.vegetable.VegetableEventHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -14,7 +14,7 @@ public class RepositoryConfiguration {
     }
 
     @Bean
-    VegetableEntityEventHandler vegetableEntityEventHandler(){
-        return new VegetableEntityEventHandler();
+    VegetableEventHandler vegetableEntityEventHandler(){
+        return new VegetableEventHandler();
     }
 }

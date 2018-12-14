@@ -18,4 +18,25 @@ public class ComputedHarvestDateIdentity implements Serializable {
     @JoinColumn(name = "vegetable_id")
     private Vegetable vegetable;
 
+
+    public ComputedHarvestDateIdentity(@NotNull Date seedingDay, @NotNull Vegetable vegetable) {
+        this.seedingDay = seedingDay;
+        this.vegetable = vegetable;
+    }
+
+    public Date getSeedingDay() {
+        return seedingDay;
+    }
+
+    public void setSeedingDay(Date seedingDay) {
+        this.seedingDay = seedingDay;
+    }
+
+    public Vegetable getVegetable() {
+        return vegetable;
+    }
+
+    public void setVegetable(Vegetable vegetable) {
+        this.vegetable = vegetable;
+    }
 }
