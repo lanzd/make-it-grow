@@ -1,4 +1,4 @@
-package com.planning.application.vegetableCommand;
+package com.planning.application.orderedvegetable;
 
 import com.planning.application.order.OrderEntity;
 import org.springframework.data.domain.Page;

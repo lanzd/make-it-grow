@@ -1,4 +1,4 @@
-package com.planning.application.vegetableCommand;
+package com.planning.application.orderedvegetable;
 
 import com.planning.application.order.OrderEntity;
 import com.planning.application.vegetable.Vegetable;
@@ -25,6 +25,8 @@ public class OrderedVegetable {
     @JoinColumn(name = "order_id")
     private OrderEntity orderEntity;
 
+    private int quantity;
+
     private Date date;
 
     public Vegetable getVegetable() {
@@ -41,7 +43,6 @@ public class OrderedVegetable {
 
     public void setOrderEntity(OrderEntity orderEntity) {
         this.orderEntity = orderEntity;
-        this.date = orderEntity.getDate();
     }
 
     public long getId() {
@@ -52,8 +53,20 @@ public class OrderedVegetable {
         this.id = id;
     }
 
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
     public Date getDate() {
         return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     @Override

@@ -1,6 +1,6 @@
 package com.planning.application.order;
 
-import com.planning.application.vegetableCommand.OrderedVegetableService;
+import com.planning.application.orderedvegetable.OrderedVegetableService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.core.annotation.HandleAfterCreate;
 import org.springframework.data.rest.core.annotation.HandleAfterSave;

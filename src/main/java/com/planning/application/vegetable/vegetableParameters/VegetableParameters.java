@@ -1,6 +1,11 @@
 package com.planning.application.vegetable.vegetableParameters;
 
-import javax.persistence.Embeddable;
+import com.planning.application.product.simpleproduct.Unit;
+import org.hibernate.annotations.CollectionType;
+
+import javax.persistence.*;
+import java.util.HashMap;
+import java.util.Map;
 
 @Embeddable
 public class VegetableParameters {
@@ -19,6 +24,10 @@ public class VegetableParameters {
 
     // Loss % during the field time
     private Integer fieldLossFactor;
+
+    private Unit seedlingUnit;
+
+    private HashMap<Unit,Double> unitConversionFactor = new HashMap<>();
 
     public int getGrowingTime() {
         return growingTime;
@@ -60,6 +69,22 @@ public class VegetableParameters {
         this.fieldLossFactor = fieldLossFactor;
     }
 
+    public Unit getSeedlingUnit() {
+        return seedlingUnit;
+    }
+
+    public void setSeedlingUnit(Unit seedlingUnit) {
+        this.seedlingUnit = seedlingUnit;
+    }
+
+    public HashMap<Unit,Double> getUnitConversionFactor() {
+        return unitConversionFactor;
+    }
+
+    public void setUnitConversionFactor(HashMap<Unit,Double> unitConversionFactor) {
+        this.unitConversionFactor = unitConversionFactor;
+    }
+
     @Override
     public String toString() {
         return "VegetableParameters{" +
@@ -68,6 +93,7 @@ public class VegetableParameters {
                 ", harvestWindow='" + harvestWindow + '\'' +
                 ", nuseryLossFactor='" + nuseryLossFactor + '\'' +
                 ", fieldLossFactor='" + fieldLossFactor + '\'' +
+                ", seedlingUnit=" + seedlingUnit + '\'' +
                 '}';
     }
 }
