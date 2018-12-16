@@ -1,11 +1,9 @@
 package com.planning.application.vegetable.vegetableParameters;
 
 import com.planning.application.product.simpleproduct.Unit;
-import org.hibernate.annotations.CollectionType;
 
-import javax.persistence.*;
+import javax.persistence.Embeddable;
 import java.util.HashMap;
-import java.util.Map;
 
 @Embeddable
 public class VegetableParameters {
@@ -83,6 +81,10 @@ public class VegetableParameters {
 
     public void setUnitConversionFactor(HashMap<Unit,Double> unitConversionFactor) {
         this.unitConversionFactor = unitConversionFactor;
+    }
+
+    public Integer getTimeBeforeHarvest(){
+        return getGrowingTime() + getNurseryTime();
     }
 
     @Override

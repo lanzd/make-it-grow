@@ -1,20 +1,12 @@
 package com.planning.application.vegetable;
 
-import com.planning.application.computedharvestdate.ComputedHarvestDate;
-import com.planning.application.computedharvestdate.ComputedHarvestDateIdentity;
-import com.planning.application.computedharvestdate.ComputedHarvestDateRepository;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Optional;
-
-import static com.planning.application.vegetable.vegetableParameters.VegetableDefaultParameters.GROWING_TIME_SEASON_FACTOR;
 
 @Service
 public class VegetableService {
@@ -26,8 +18,6 @@ public class VegetableService {
     @Autowired
     VegetableRepository vegetableRepository;
 
-    @Autowired
-    ComputedHarvestDateRepository computedHarvestDateRepository;
 
     public Vegetable get(long connectorId) throws NotFoundException {
         Optional<Vegetable> optionalConnector = vegetableRepository.findById(connectorId);
@@ -37,27 +27,42 @@ public class VegetableService {
         throw new NotFoundException("no vegetable " + connectorId);
     }
 
-    public Collection<ComputedHarvestDate> updateVegetableHarvestDates(Vegetable vegetable){
-        deleteVegetableHarvestDates(vegetable);
-        return computeVegetableHarvestDates(vegetable);
+    public Date findMaximumSeedingDateForHarvestDate(Vegetable vegetable,Date harvestDate){
+        Integer totalTime = vegetable.getVegetableParameters().getTimeBeforeHarvest();
+        Calendar harvestDateCal = getCalendarDate(harvestDate,12);
+        Calendar refSeedingDate = getCalendarDate(new Date(harvestDate.getTime() - totalTime * DAY_IN_MILISECOND),12);
+        return searchMaximumSeedingDateForHarvestDateFromRefDate(totalTime,harvestDateCal,refSeedingDate).getTime();
     }
 
-    public Collection<ComputedHarvestDate> computeVegetableHarvestDates(Vegetable vegetable) {
-        return this.computeVegetableHarvestDates(vegetable,DEFAULT_HARVEST_PERIOD_TO_COMPUTE);
-    }
-
-    private Collection<ComputedHarvestDate> computeVegetableHarvestDates(Vegetable vegetable, int duration) {
-        ArrayList<ComputedHarvestDate> computedHarvestDates = new ArrayList<>();
-        Date date = new Date();
-        for(int i = 0;i<duration;i++){
-            Date seedingDate = new Date(date.getTime() + DAY_IN_MILISECOND * i);
-            Date harvestDate = new Date(seedingDate.getTime() + (vegetable.getVegetableParameters().getNurseryTime() + vegetable.getVegetableParameters().getGrowingTime())*DAY_IN_MILISECOND * GROWING_TIME_SEASON_FACTOR(seedingDate));
-            computedHarvestDates.add(computedHarvestDateRepository.save(new ComputedHarvestDate(new ComputedHarvestDateIdentity(seedingDate,vegetable),harvestDate)));
+    private Calendar searchMaximumSeedingDateForHarvestDateFromRefDate(Integer timeToGrow, Calendar harvestDate, Calendar refDate){
+        Calendar refHarvestDate = Calendar.getInstance();
+        refHarvestDate.setTime(new Date(Math.round(refDate.getTime().getTime() + getDateGrowingFactor(refDate) * timeToGrow)));
+        if(refHarvestDate.equals(harvestDate)) {
+            return refDate;
+        } else {
+            Calendar newRefDate = Calendar.getInstance();
+            newRefDate.setTime(new Date(refDate.getTimeInMillis() - (harvestDate.getTimeInMillis() - refHarvestDate.getTimeInMillis())));
+            if(sameDay(newRefDate,refDate)){
+                return refDate;
+            }
+            return searchMaximumSeedingDateForHarvestDateFromRefDate(timeToGrow,harvestDate,refDate);
         }
-        return computedHarvestDates;
     }
 
-    public void deleteVegetableHarvestDates(Vegetable vegetable){
-        computedHarvestDateRepository.deleteAll(computedHarvestDateRepository.findByComputedHarvestDateIdentityVegetable(vegetable, PageRequest.of(0,100)));
+    private boolean sameDay(Calendar cal1, Calendar cal2) {
+        return cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR) && cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR);
+    }
+
+    private Calendar getCalendarDate(Date date, Integer hours){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        if(hours != null) {
+            calendar.set(Calendar.HOUR_OF_DAY, hours);
+        }
+        return calendar;
+    }
+
+    private Double getDateGrowingFactor(Calendar date) {
+        return null;
     }
 }

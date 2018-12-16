@@ -7,13 +7,15 @@ import com.planning.application.product.compositeproduct.component.CompositeProd
 import com.planning.application.product.compositeproduct.component.CompositeProductComponentRepository;
 import com.planning.application.product.simpleproduct.SimpleProduct;
 import com.planning.application.vegetable.Vegetable;
-import javassist.NotFoundException;
+import com.planning.application.vegetable.VegetableService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.planning.application.product.simpleproduct.SimpleProductUtils.CONVERT_QUANTITY;
 
@@ -21,10 +23,13 @@ import static com.planning.application.product.simpleproduct.SimpleProductUtils.
 public class OrderedVegetableService {
 
     @Autowired
-    OrderedVegetableRepository vegetableOrderedVegetableRepository;
+    OrderedVegetableRepository orderedVegetableRepository;
 
     @Autowired
     CompositeProductComponentRepository compositeProductComponentRepository;
+
+    @Autowired
+    VegetableService vegetableService;
 
     public void createOrderedVegetablesFromOrder(OrderEntity orderEntity){
         Product orderedProduct = orderEntity.getProduct();
@@ -36,12 +41,22 @@ public class OrderedVegetableService {
     }
 
     public void deleteOrderedVegetablesFromOrder(OrderEntity orderEntity){
-        Page<OrderedVegetable> page = vegetableOrderedVegetableRepository.findByOrderEntity(orderEntity, PageRequest.of(0,100));
+        Page<OrderedVegetable> page = orderedVegetableRepository.findByOrderEntity(orderEntity, PageRequest.of(0,100));
         while(page.getNumberOfElements() > 0) {
             for (OrderedVegetable orderedVegetable : page.getContent()) {
-                vegetableOrderedVegetableRepository.delete(orderedVegetable);
+                orderedVegetableRepository.delete(orderedVegetable);
             }
-            page = vegetableOrderedVegetableRepository.findByOrderEntity(orderEntity, page.nextPageable());
+            page = orderedVegetableRepository.findByOrderEntity(orderEntity, page.nextPageable());
+        }
+    }
+
+    public void updateOrderedVegetableMaximumSeedingDate(Vegetable vegetable){
+        Page<OrderedVegetable> page = orderedVegetableRepository.findByVegetable(vegetable, PageRequest.of(0,100));
+        while(page.getNumberOfElements() > 0) {
+            for (OrderedVegetable orderedVegetable : page.getContent()) {
+                orderedVegetable.setMaximumSeedingDate(vegetableService.findMaximumSeedingDateForHarvestDate(vegetable,orderedVegetable.getDate()));
+            }
+            page = orderedVegetableRepository.findByVegetable(vegetable, PageRequest.of(0,100));
         }
     }
 
@@ -50,8 +65,9 @@ public class OrderedVegetableService {
         orderedVegetable.setOrderEntity(orderEntity);
         orderedVegetable.setVegetable(product.getVegetable());
         orderedVegetable.setDate(orderEntity.getDate());
+        orderedVegetable.setMaximumSeedingDate(vegetableService.findMaximumSeedingDateForHarvestDate(product.getVegetable(),orderEntity.getDate()));
         orderedVegetable.setQuantity(CONVERT_QUANTITY(product));
-        return vegetableOrderedVegetableRepository.save(orderedVegetable);
+        return orderedVegetableRepository.save(orderedVegetable);
     }
 
     private Collection<OrderedVegetable> createOrderedVegetablesFromCompositeProduct(CompositeProduct product, OrderEntity orderEntity){

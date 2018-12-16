@@ -9,7 +9,8 @@ import java.util.Date;
 @Entity
 @Table(indexes = {
         @Index(name= "ordered_vegetable_idx_date", columnList = "date", unique = false),
-        @Index(name= "ordered_vegetable_idx_order", columnList = "order_id", unique = false)
+        @Index(name= "ordered_vegetable_idx_order", columnList = "order_id", unique = false),
+        //@Index(name= "ordered_vegetable_idx_seeding_date", columnList = "maximumSeedingDate", unique = false),
 })
 public class OrderedVegetable {
 
@@ -17,7 +18,7 @@ public class OrderedVegetable {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private long id;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "vegetable_id")
     private Vegetable vegetable;
 
@@ -29,16 +30,18 @@ public class OrderedVegetable {
 
     private Date date;
 
+    private Date maximumSeedingDate;
 
     public OrderedVegetable() {
     }
 
-    public OrderedVegetable(long id, Vegetable vegetable, OrderEntity orderEntity, int quantity, Date date) {
+    public OrderedVegetable(long id, Vegetable vegetable, OrderEntity orderEntity, int quantity, Date date, Date maximumSeedingDate) {
         this.id = id;
         this.vegetable = vegetable;
         this.orderEntity = orderEntity;
         this.quantity = quantity;
         this.date = date;
+        this.maximumSeedingDate = maximumSeedingDate;
     }
 
     public Vegetable getVegetable() {
@@ -81,13 +84,22 @@ public class OrderedVegetable {
         this.date = date;
     }
 
+    public Date getMaximumSeedingDate() {
+        return maximumSeedingDate;
+    }
+
+    public void setMaximumSeedingDate(Date maximumSeedingDate) {
+        this.maximumSeedingDate = maximumSeedingDate;
+    }
+
     @Override
     public String toString() {
         return "OrderedVegetable{" +
                 "id=" + id +
                 ", vegetable='" + vegetable.toString() + '\'' +
                 ", orderEntity='" + orderEntity.toString() + '\'' +
-                ", date=" + date.toString() +
+                ", date=" + date.toString() + '\'' +
+                ", maximumSeedingDate=" + maximumSeedingDate.toString() + '\'' +
                 '}';
     }
 }

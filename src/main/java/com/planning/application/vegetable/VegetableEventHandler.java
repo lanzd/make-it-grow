@@ -1,5 +1,6 @@
 package com.planning.application.vegetable;
 
+import com.planning.application.orderedvegetable.OrderedVegetableService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.core.annotation.HandleAfterCreate;
 import org.springframework.data.rest.core.annotation.HandleAfterSave;
@@ -10,20 +11,18 @@ import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
 public class VegetableEventHandler {
 
     @Autowired
-    VegetableService vegetableService;
+    OrderedVegetableService orderedVegetableService;
 
-    @HandleAfterCreate
-    public void handleVegetableCreate(Vegetable vegetable) {
-        vegetableService.computeVegetableHarvestDates(vegetable);
-    }
-
-    @HandleBeforeDelete
-    public void handleVegetableDelete(Vegetable vegetable) {
-        vegetableService.deleteVegetableHarvestDates(vegetable);
-    }
+//    @HandleAfterCreate
+//    public void handleVegetableCreate(Vegetable vegetable) {
+//    }
+//
+//    @HandleBeforeDelete
+//    public void handleVegetableDelete(Vegetable vegetable) {
+//    }
 
     @HandleAfterSave
     public void handleVegetableSave(Vegetable vegetable) {
-        vegetableService.updateVegetableHarvestDates(vegetable);
+        orderedVegetableService.updateOrderedVegetableMaximumSeedingDate(vegetable);
     }
 }
