@@ -10,7 +10,7 @@ import java.util.Date;
 @Table(indexes = {
         @Index(name= "ordered_vegetable_idx_date", columnList = "date", unique = false),
         @Index(name= "ordered_vegetable_idx_order", columnList = "order_id", unique = false),
-        //@Index(name= "ordered_vegetable_idx_seeding_date", columnList = "maximumSeedingDate", unique = false),
+        @Index(name= "ordered_vegetable_idx_seeding_date", columnList = "maximumSeedingDate", unique = false),
 })
 public class OrderedVegetable {
 
